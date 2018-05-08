@@ -8,13 +8,15 @@ if (!file.exists("./data/summarySCC_PM25.rds") ||
 nei <- readRDS("./data/summarySCC_PM25.rds")
 #scc <- readRDS("./data/Source_Classification_Code.rds")
 
+library(dplyr)
+
 neiTotalUs <- nei %>% group_by(year) %>% summarize(totalEmissions = sum(Emissions))
 
-yRange <- range(neiTotalUs$totalEmissions / 1e6)
-
-png(file = "plot1test.png", width = 512, height = 512)
+png(file = "plot1.png", width = 512, height = 512)
 plot(neiTotalUs$year, neiTotalUs$totalEmissions / 1e6, 
      type = "l", xlab = "year", 
-     ylab = "total emissions, mln tons", 
-     xaxp = c(1999, 2008, 3), yaxp = c(yRange, 3))
+     ylab = "total emissions, million tons", 
+     xaxp = c(range(neiTotalUs$year), 3), 
+     yaxp = c(range(neiTotalUs$totalEmissions / 1e6), 3))
+title(main = "Total PM2.5 Emissions, United States")
 dev.off()
