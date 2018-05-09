@@ -1,3 +1,4 @@
+# Unpack files and read data
 if (!file.exists("./data"))
     dir.create("./data")
 
@@ -10,10 +11,14 @@ nei <- readRDS("./data/summarySCC_PM25.rds")
 
 library(dplyr)
 
-
+# First, group the data by the (type, year) pair.
+# Then, find emission totals for each group.
 neiByTypeYearBaltimore <- nei %>% filter(fips == "24510") %>%
     group_by(type, year) %>% summarize(emissionsTypeYear = sum(Emissions))
 
+# Plot the emission values as functions of time.
+# As we have few types, plot all the graphs on the same plot,
+#  but with different colors.
 library(ggplot2)
 
 png(file = "plot3.png", width = 512, height = 512)

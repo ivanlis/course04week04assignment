@@ -1,3 +1,4 @@
+# Unpack files and read data
 if (!file.exists("./data"))
     dir.create("./data")
 
@@ -9,10 +10,12 @@ nei <- readRDS("./data/summarySCC_PM25.rds")
 #scc <- readRDS("./data/Source_Classification_Code.rds")
 
 library(dplyr)
-
+# First, only select the rows related to Baltimore, 
+# then, compute emission totals by year.
 neiTotalBaltimore <- nei %>% filter(fips == "24510") %>% 
     group_by(year) %>% summarize(totalEmissions = sum(Emissions))
 
+# Plot the computed summary.
 png(file = "plot2.png", width = 512, height = 512)
 plot(neiTotalBaltimore$year, neiTotalBaltimore$totalEmissions / 1e3, 
      type = "l", xlab = "year", 

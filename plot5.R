@@ -11,19 +11,22 @@ scc <- readRDS("./data/Source_Classification_Code.rds")
 
 library(dplyr)
 
-# Extract all the SCC values related to coal combustion
-sccCoal <- scc$SCC[grep(pattern = "coal", x = scc$EI.Sector, ignore.case = TRUE, value = FALSE)]
+# Extract all the SCC values related to motor vehicles
+sccVehicles <- scc$SCC[grep(pattern = "vehicle", x = scc$EI.Sector, 
+                            ignore.case = TRUE, value = FALSE)]
 # Extract data on the pollutants whose ids are among what we've just found
-neiCoal <- nei[nei$SCC %in% sccCoal, c("Emissions", "year")]
+#  (only related to Baltimore City)
+neiVehicles <- nei[nei$SCC %in% sccVehicles & nei$fips == "24510", c("Emissions", "year")]
 # Compute totals by year.
-neiCoal <- neiCoal %>% group_by(year) %>% summarize(coalEmissions = sum(Emissions))
+neiVehicles <- neiVehicles %>% group_by(year) %>% summarize(vehicleEmissions = sum(Emissions))
 
 # Plot the computed summary.
 library(ggplot2)
-png(file = "plot4.png", width = 512, height = 512)
-ggplot(data = neiCoal, mapping = aes(x = year, y = coalEmissions)) +
+png(file = "plot5.png", width = 512, height = 512)
+ggplot(data = neiVehicles, mapping = aes(x = year, y = vehicleEmissions)) +
     geom_line() + geom_point() + 
     labs(x = "year", y = "emissions, tons", 
-         title = "Coal Related Emissions in the United States") +
+         title = "Emissions from motor vehicles in Baltimore") +
     scale_x_continuous(breaks = c(1999, 2002, 2005, 2008))    
 dev.off()
+
