@@ -32,7 +32,7 @@ absPlot <- ggplot(data = neiVehiclesTwoPlaces,
        mapping = aes(x = year, y = vehicleEmissions, col = Area)) +
     geom_line() + geom_point() + 
     labs(x = "year", y = "emissions, tons", 
-         title = "Emissions from motor vehicles in Baltimore") +
+         title = "Emissions from motor vehicles in Baltimore and Los Angeles") +
     scale_x_continuous(breaks = c(1999, 2002, 2005, 2008))
 
 
@@ -55,7 +55,7 @@ relPlot <- ggplot(data = neiVehiclesTwoPlacesRel,
                   mapping = aes(x = year, y = vehicleEmissionsRel, col = Area)) +
     geom_line() + geom_point() + 
     labs(x = "year", y = "emissions", 
-         title = "Emissions from motor vehicles in Baltimore (proportional)") +
+         title = "Emissions from motor vehicles in Baltimore and Los Angeles (proportional)") +
     scale_x_continuous(breaks = c(1999, 2002, 2005, 2008))
 
 # An extra library just to lay out a grid of ggplot2 graphs.
